@@ -1,0 +1,590 @@
+{
+    "menu": {
+        "item": [
+            {
+                "_sTitle": "Ohio Asphalt Magazine",
+                "item": [
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/test6/page-1.webp",
+                        "_sDate": "2026-04-23",
+                        "_sPublished": true,
+                        "_sTitle": "TEST6",
+                        "_sURL": "https://ohioasphaltmagazine.com/test6/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/test5/page-1.webp",
+                        "_sDate": "2026-04-23",
+                        "_sPublished": true,
+                        "_sTitle": "TEST5",
+                        "_sURL": "https://ohioasphaltmagazine.com/test5/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/test4/page-1.webp",
+                        "_sDate": "2026-04-23",
+                        "_sPublished": true,
+                        "_sTitle": "TEST4",
+                        "_sURL": "https://ohioasphaltmagazine.com/test4/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/test3/page-1.webp",
+                        "_sDate": "2026-04-23",
+                        "_sPublished": true,
+                        "_sTitle": "Test3",
+                        "_sURL": "https://ohioasphaltmagazine.com/test3/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "OA-Spring-2026/page-1.webp",
+                        "_sDate": "2026-04-22",
+                        "_sPublished": true,
+                        "_sTitle": "Ohio Asphalt Spring 2026",
+                        "_sURL": "https://ohioasphaltmagazine.com/OA-Spring-2026/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/Spring-2026/files/assets/cover/1.jpg",
+                        "_sDate": "2026-03-02",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/Spring-2026/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/Spring-2026/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/Spring-2026/files/data/search.json",
+                        "_sTitle": "Spring-2026",
+                        "_sURL": "http://ohioasphaltmagazine.com/Spring-2026/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/Winter-2025/files/assets/cover/1.jpg",
+                        "_sDate": "2026-01-09",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/Winter-2025/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/Winter-2025/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/Winter-2025/files/data/search.json",
+                        "_sTitle": "Winter-2025",
+                        "_sURL": "http://ohioasphaltmagazine.com/Winter-2025/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/Fall-2025/files/assets/cover/1.jpg",
+                        "_sDate": "2025-10-30",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/Fall-2025/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/Fall-2025/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/Fall-2025/files/data/search.json",
+                        "_sTitle": "Fall-2025",
+                        "_sURL": "http://ohioasphaltmagazine.com/Fall-2025/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/2025-Summer/files/assets/cover/1.jpg",
+                        "_sDate": "2025-07-23",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/2025-Summer/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/2025-Summer/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/2025-Summer/files/data/search.json",
+                        "_sTitle": "2025-Summer",
+                        "_sURL": "http://ohioasphaltmagazine.com/2025-Summer/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/Spring-2025/files/assets/cover/1.jpg",
+                        "_sDate": "2025-03-04",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/Spring-2025/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/Spring-2025/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/Spring-2025/files/data/search.json",
+                        "_sTitle": "Spring-2025",
+                        "_sURL": "http://ohioasphaltmagazine.com/Spring-2025/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/2024-Winter/files/assets/cover/1.jpg",
+                        "_sDate": "2025-01-09",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/2024-Winter/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/2024-Winter/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/2024-Winter/files/data/search.json",
+                        "_sTitle": "Winter-2024",
+                        "_sURL": "http://ohioasphaltmagazine.com/2024-Winter/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/Fall-2024/files/assets/cover/1.jpg",
+                        "_sDate": "2024-10-29",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/Fall-2024/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/Fall-2024/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/Fall-2024/files/data/search.json",
+                        "_sTitle": "Fall-2024",
+                        "_sURL": "http://ohioasphaltmagazine.com/Fall-2024/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/OA-Summer-2024/files/assets/cover/1.jpg",
+                        "_sDate": "2024-07-22",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/OA-Summer-2024/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/OA-Summer-2024/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/OA-Summer-2024/files/data/search.json",
+                        "_sTitle": "OA-Summer-2024",
+                        "_sURL": "http://ohioasphaltmagazine.com/OA-Summer-2024/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/OA-Spring-2024/files/assets/cover/1.jpg",
+                        "_sDate": "2024-02-23",
+                        "_sImagePath": "https://ohioasphaltmagazine.com/OA-Spring-2024/files/pages/thumbs/",
+                        "_sMagazinePath": "https://ohioasphaltmagazine.com/OA-Spring-2024/files/",
+                        "_sPublished": true,
+                        "_sSearch": "https://ohioasphaltmagazine.com/OA-Spring-2024/files/data/search.json",
+                        "_sTitle": "OA-Spring-2024",
+                        "_sURL": "https://ohioasphaltmagazine.com/OA-Spring-2024/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/OA-Winter-2023/files/assets/cover/1.jpg",
+                        "_sDate": "2024-01-02",
+                        "_sImagePath": "https://ohioasphaltmagazine.com/OA-Winter-2023/files/pages/thumbs/",
+                        "_sMagazinePath": "https://ohioasphaltmagazine.com/OA-Winter-2023/files/",
+                        "_sPublished": true,
+                        "_sSearch": "https://ohioasphaltmagazine.com/OA-Winter-2023/files/data/search.json",
+                        "_sTitle": "OA-Winter-2023",
+                        "_sURL": "https://ohioasphaltmagazine.com/OA-Winter-2023/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "https://ohioasphaltmagazine.com/OA-Fall-2023/files/assets/cover/1.jpg",
+                        "_sDate": "2023-09-22",
+                        "_sImagePath": "https://ohioasphaltmagazine.com/OA-Fall-2023/files/pages/thumbs/",
+                        "_sMagazinePath": "https://ohioasphaltmagazine.com/OA-Fall-2023/files/",
+                        "_sPublished": true,
+                        "_sSearch": "https://ohioasphaltmagazine.com/OA-Fall-2023/files/data/search.json",
+                        "_sTitle": "OA-Fall-2023",
+                        "_sURL": "https://ohioasphaltmagazine.com/OA-Fall-2023/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/OA-Summer-2023/files/assets/cover/1.jpg",
+                        "_sDate": "2023-06-20",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/OA-Summer-2023/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/OA-Summer-2023/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/OA-Summer-2023/files/data/search.json",
+                        "_sTitle": "OA-Summer-2023",
+                        "_sURL": "http://ohioasphaltmagazine.com/OA-Summer-2023/index.html",
+                        "_sVersion": "9.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/OA-Summer-2016/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/OA-Summer-2016/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/OA-Summer-2016/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/OA-Summer-2016/files/data/search.xml",
+                        "_sTitle": "OA Summer 2016",
+                        "_sURL": "http://ohioasphaltmagazine.com/OA-Summer-2016/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/oa-spring-2016/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/oa-spring-2016/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/oa-spring-2016/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/oa-spring-2016/files/data/search.xml",
+                        "_sTitle": "OA Spring 2016",
+                        "_sURL": "http://ohioasphaltmagazine.com/oa-spring-2016/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/oa-winter-2015/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/oa-winter-2015/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/oa-winter-2015/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/oa-winter-2015/files/data/search.xml",
+                        "_sTitle": "OA Winter 2015",
+                        "_sURL": "http://ohioasphaltmagazine.com/oa-winter-2015/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/fall2015/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/fall2015/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/fall2015/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/fall2015/files/data/search.xml",
+                        "_sTitle": "OA Fall 2015",
+                        "_sURL": "http://ohioasphaltmagazine.com/fall2015/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/summer15/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/summer15/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/summer15/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/summer15/files/data/search.xml",
+                        "_sTitle": "OA Summer 2015",
+                        "_sURL": "http://ohioasphaltmagazine.com/summer15/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/spring2015/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/spring2015/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/spring2015/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/spring2015/files/data/search.xml",
+                        "_sTitle": "OA Spring 2015",
+                        "_sURL": "http://ohioasphaltmagazine.com/spring2015/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/oawinter2014/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/oawinter2014/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/oawinter2014/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/oawinter2014/files/data/search.xml",
+                        "_sTitle": "OA Winter 2014",
+                        "_sURL": "http://ohioasphaltmagazine.com/oawinter2014/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/oafall2014/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/oafall2014/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/oafall2014/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/oafall2014/files/data/search.xml",
+                        "_sTitle": "OA Fall 2014",
+                        "_sURL": "http://ohioasphaltmagazine.com/oafall2014/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/oasummer2014/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/oasummer2014/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/oasummer2014/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/oasummer2014/files/data/search.xml",
+                        "_sTitle": "OA Summer 2014",
+                        "_sURL": "http://ohioasphaltmagazine.com/oasummer2014/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/oaspring2014/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-12",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/oaspring2014/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/oaspring2014/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/oaspring2014/files/data/search.xml",
+                        "_sTitle": "OA Spring 2014",
+                        "_sURL": "http://ohioasphaltmagazine.com/oaspring2014/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://ohioasphaltmagazine.com/OA-Fall-2016/files/assets/cover/1.jpg",
+                        "_sDate": "2016-09-20",
+                        "_sImagePath": "http://ohioasphaltmagazine.com/OA-Fall-2016/files/pages/thumbs/",
+                        "_sMagazinePath": "http://ohioasphaltmagazine.com/OA-Fall-2016/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://ohioasphaltmagazine.com/OA-Fall-2016/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2016",
+                        "_sURL": "http://ohioasphaltmagazine.com/OA-Fall-2016/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/oa-winter-2016/files/assets/cover/1.jpg",
+                        "_sDate": "2016-12-16",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/oa-winter-2016/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/oa-winter-2016/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/oa-winter-2016/files/data/search.xml",
+                        "_sTitle": "oa-winter-2016",
+                        "_sURL": "http://Ohioasphaltmagazine.com/oa-winter-2016/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2017/files/assets/cover/1.jpg",
+                        "_sDate": "2017-03-06",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2017/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2017/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2017/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2017",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2017/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Summer-2017/files/assets/cover/1.jpg",
+                        "_sDate": "2017-06-30",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Summer-2017/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Summer-2017/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Summer-2017/files/data/search.xml",
+                        "_sTitle": "OA-Summer-2017",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Summer-2017/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Fall-2017/files/assets/cover/1.jpg",
+                        "_sDate": "2017-11-01",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Fall-2017/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Fall-2017/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Fall-2017/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2017",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Fall-2017/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Winter-2017/files/assets/cover/1.jpg",
+                        "_sDate": "2018-01-05",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Winter-2017/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Winter-2017/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Winter-2017/files/data/search.xml",
+                        "_sTitle": "OA-Winter-2017",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Winter-2017/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2018/files/assets/cover/1.jpg",
+                        "_sDate": "2018-03-06",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2018/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2018/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2018/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2018",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2018/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Summer-2018/files/assets/cover/1.jpg",
+                        "_sDate": "2018-07-03",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Summer-2018/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Summer-2018/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Summer-2018/files/data/search.xml",
+                        "_sTitle": "OA-Summer-2018",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Summer-2018/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Fall-2018/files/assets/cover/1.jpg",
+                        "_sDate": "2018-09-28",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Fall-2018/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Fall-2018/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Fall-2018/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2018",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Fall-2018/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Winter-2018/files/assets/cover/1.jpg",
+                        "_sDate": "2018-11-30",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Winter-2018/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Winter-2018/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Winter-2018/files/data/search.xml",
+                        "_sTitle": "OA-Winter-2018",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Winter-2018/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2019/files/assets/cover/1.jpg",
+                        "_sDate": "2019-02-28",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2019/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2019/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2019/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2019",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2019/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Summer-2019/files/assets/cover/1.jpg",
+                        "_sDate": "2019-06-06",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Summer-2019/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Summer-2019/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Summer-2019/files/data/search.xml",
+                        "_sTitle": "OA-Summer-2019",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Summer-2019/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Fall-2019/files/assets/cover/1.jpg",
+                        "_sDate": "2019-09-20",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Fall-2019/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Fall-2019/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Fall-2019/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2019",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Fall-2019/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Winter-2019/files/assets/cover/1.jpg",
+                        "_sDate": "2019-12-06",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Winter-2019/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Winter-2019/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Winter-2019/files/data/search.xml",
+                        "_sTitle": "OA-Winter-2019",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Winter-2019/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2020/files/assets/cover/1.jpg",
+                        "_sDate": "2020-02-19",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2020/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2020/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2020/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2020",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2020/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Summer-2020/files/assets/cover/1.jpg",
+                        "_sDate": "2020-06-08",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Summer-2020/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Summer-2020/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Summer-2020/files/data/search.xml",
+                        "_sTitle": "OA-Summer-2020",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Summer-2020/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Fall-2020/files/assets/cover/1.jpg",
+                        "_sDate": "2020-09-08",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Fall-2020/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Fall-2020/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Fall-2020/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2020",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Fall-2020/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Winter-2020/files/assets/cover/1.jpg",
+                        "_sDate": "2020-12-22",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Winter-2020/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Winter-2020/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Winter-2020/files/data/search.xml",
+                        "_sTitle": "OA-Winter-2020",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Winter-2020/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2021/files/assets/cover/1.jpg",
+                        "_sDate": "2021-03-24",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2021/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2021/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2021/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2021",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2021/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Summer-2021/files/assets/cover/1.jpg",
+                        "_sDate": "2021-06-03",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Summer-2021/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Summer-2021/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Summer-2021/files/data/search.xml",
+                        "_sTitle": "OA-Summer-2021",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Summer-2021/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Fall-2021/files/assets/cover/1.jpg",
+                        "_sDate": "2021-09-17",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Fall-2021/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Fall-2021/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Fall-2021/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2021",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Fall-2021/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Winter-2021/files/assets/cover/1.jpg",
+                        "_sDate": "2021-12-13",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Winter-2021/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Winter-2021/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Winter-2021/files/data/search.xml",
+                        "_sTitle": "OA-Winter-2021",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Winter-2021/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2022/files/assets/cover/1.jpg",
+                        "_sDate": "2022-03-21",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2022/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2022/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2022/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2022",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2022/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Summer-2022/files/assets/cover/1.jpg",
+                        "_sDate": "2022-07-05",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Summer-2022/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Summer-2022/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Summer-2022/files/data/search.xml",
+                        "_sTitle": "OA-Summer-2022",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Summer-2022/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Fall-2022/files/assets/cover/1.jpg",
+                        "_sDate": "2022-10-26",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Fall-2022/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Fall-2022/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Fall-2022/files/data/search.xml",
+                        "_sTitle": "OA-Fall-2022",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Fall-2022/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Winter-2022/files/assets/cover/1.jpg",
+                        "_sDate": "2022-12-27",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Winter-2022/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Winter-2022/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Winter-2022/files/data/search.xml",
+                        "_sTitle": "OA-Winter-2022",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Winter-2022/index.html",
+                        "_sVersion": "7.x"
+                    },
+                    {
+                        "_sCover": "http://Ohioasphaltmagazine.com/OA-Spring-2023/files/assets/cover/1.jpg",
+                        "_sDate": "2023-03-07",
+                        "_sImagePath": "http://Ohioasphaltmagazine.com/OA-Spring-2023/files/pages/thumbs/",
+                        "_sMagazinePath": "http://Ohioasphaltmagazine.com/OA-Spring-2023/files/",
+                        "_sPublished": true,
+                        "_sSearch": "http://Ohioasphaltmagazine.com/OA-Spring-2023/files/data/search.xml",
+                        "_sTitle": "OA-Spring-2023",
+                        "_sURL": "http://Ohioasphaltmagazine.com/OA-Spring-2023/index.html",
+                        "_sVersion": "7.x"
+                    }
+                ]
+            }
+        ]
+    }
+}
