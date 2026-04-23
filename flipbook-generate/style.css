@@ -1,0 +1,454 @@
+body {
+    margin: 0;
+    background: #111;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+	overflow: hidden;
+}
+
+.book {
+    width: 100vw;
+	height: 100vh;
+    max-width: 1800px;   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+	overflow: visible;
+}
+
+.spread {
+    display: none;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.spread.active {
+    display: flex;
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.cover .page {
+    /* width: 50%; */
+}
+
+.cover {
+    justify-content: flex-start;
+}
+
+.pageholder {
+    position: relative;
+    width: 48%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.placeholder {
+    width: 48%;
+    height: 100%;
+}
+
+
+#flipbook {
+    position: absolute;
+}
+
+#flipbook .page {
+    background: #111;
+    overflow: hidden;
+}
+
+#flipbook .page .page-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#flipbook .page img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+#zoom-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: zoom-in;
+}
+
+#zoom-container.zoomed {
+    cursor: move;
+}
+
+.zoom-close {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    padding: 8px 12px;
+    cursor: pointer;
+    z-index: 3000;
+    display: none;
+}
+
+#zoom-container.zoomed .zoom-close,
+#zoom-container.zoomed .zoom-close {
+    display: block;
+}
+
+.innershadow {
+    position: absolute;
+    top: 0;
+    width: 6%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.pleft .innershadow {
+    right: 0;
+    background: linear-gradient(
+        to left,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0)
+    );
+}
+
+.pright .innershadow {
+    left: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0)
+    );
+}
+
+.nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+    border: none;
+
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+
+    font-size: 32px;
+    line-height: 80px;
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* LEFT / RIGHT POSITIONING */
+.prev {
+    left: -40px; /* pushes half off screen like your example */
+	padding-left: 36px;
+}
+
+.next {
+    right: -40px;
+	padding-right: 36px;
+}
+
+/* HOVER EFFECT */
+.nav:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #000;
+}
+
+/* OPTIONAL: subtle scale on hover */
+.nav:hover {
+    transform: translateY(-50%) scale(1.05);
+}
+
+
+
+.link-overlay {
+    position: absolute;
+    display: block;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0);
+    cursor: pointer;
+}
+
+/* optional for debugging */
+.link-overlay:hover {
+    background: rgba(0, 128, 255, 0.18);
+    outline: 1px solid rgba(0, 128, 255, 0.45);
+}
+
+
+.page-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* SHADOW BASE */
+.inner-shadow {
+    position: absolute;
+    top: 0;
+    width: 6%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* LEFT PAGE (shadow on right edge) */
+.page.even .inner-shadow.left {
+    right: 0;
+    background: linear-gradient(
+        to left,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0)
+    );
+}
+
+/* RIGHT PAGE (shadow on left edge) */
+.page.odd .inner-shadow.right {
+    left: 0;
+    background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.25),
+        rgba(0,0,0,0)
+    );
+}
+
+/* OPTIONAL: hide unused shadow sides */
+.inner-shadow.left { display: none; }
+.inner-shadow.right { display: none; }
+
+.page.even .inner-shadow.left { display: block; }
+.page.odd .inner-shadow.right { display: block; }
+
+
+/* TOGGLE TAB */
+.thumb-toggle {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 6px 26px 6px 26px;
+    cursor: pointer;
+    z-index: 2000;
+    border-radius: 6px 6px 0 0;
+}
+
+/* BAR CONTAINER */
+.thumb-bar {
+    position: fixed;
+    bottom: -120px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    transition: bottom 0.3s ease;
+    z-index: 1500;
+}
+
+/* SHOW ON HOVER */
+.thumb-bar.active {
+    bottom: 0;
+}
+
+/* VIEWPORT */
+.thumb-viewport {
+    overflow: hidden;
+    flex: 1;
+}
+
+/* TRACK (scroll container) */
+.thumb-track {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+/* THUMB */
+.thumb {
+    width: 75px;
+    flex-shrink: 0;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.thumb img {
+    width: 100%;
+    height: auto;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.thumb:hover img {
+    opacity: 1;
+}
+
+/* NAV BUTTONS */
+.thumb-nav {
+    width: 40px;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+
+/* TOP TOGGLE BUTTON */
+.archive-toggle {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 6px 12px;
+    cursor: pointer;
+    z-index: 2000;
+    border-radius: 0 0 6px 6px;
+    font-size: 14px;
+}
+
+/* DROPDOWN MENU */
+.archive-menu {
+    position: fixed;
+    top: -120px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: rgba(0,0,0,0.9);
+    transition: top 0.3s ease;
+    z-index: 1500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ACTIVE STATE */
+.archive-menu.active {
+    top: 0;
+}
+
+/* CONTENT */
+.archive-content {
+    color: #fff;
+    font-size: 18px;
+	cursor: pointer;
+}
+
+/* MODAL BACKDROP */
+.archive-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+}
+
+/* SHOW MODAL */
+.archive-modal.active {
+    display: flex;
+}
+
+/* MODAL BOX */
+.archive-modal-content {
+    width: 80%;
+    max-width: 1000px;
+    height: 80%;
+    background: #f5f5f5;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.archive-header {
+    background: #ddd;
+    padding: 12px 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* CLOSE BUTTON */
+.archive-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* BODY */
+.archive-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.archive-title {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.archive-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 20px;
+}
+
+.archive-item {
+    text-align: center;
+    cursor: pointer;
+}
+
+.archive-item img {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+}
+
+.archive-item:hover img {
+    transform: scale(1.05);
+}
+
+.archive-item-title {
+    margin-top: 8px;
+    font-size: 14px;
+}
