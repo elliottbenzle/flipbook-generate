@@ -15,16 +15,27 @@ Download the `/flipbook-generate/` directory and place it inside your magazine p
 ## 2. Folder Structure
 
 Your directory should look like this:
+
 /some-folder/
+
 │
+
 ├── flipbook-generate/
+
 │ ├── flipbook-generate.py
+
 │ ├── poppler-25.12.0/
+
 │ ├── script.js
+
 │ ├── style.css
+
 │ └── turn.min.js
+
 │
+
 ├── library.json
+
 ├── your-magazine.pdf
 
 ### Notes:
