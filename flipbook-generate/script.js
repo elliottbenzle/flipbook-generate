@@ -225,4 +225,130 @@ $(document).ready(function () {
 			});
 	}
 	
+	function openPrintWindow(pageNumbers) {
+		const pages = window.FLIPBOOK_PAGES || [];
+		const title = window.FLIPBOOK_TITLE || 'Flipbook';
+
+		if (!pages.length) {
+			console.error('No flipbook pages were provided for printing.');
+			alert('The page images could not be loaded for printing.');
+			return;
+		}
+
+		const printWindow = window.open('', '_blank');
+
+		if (!printWindow) {
+			alert('Popup blocked. Please allow popups to print.');
+			return;
+		}
+
+		const imagesHtml = pageNumbers.map(pageNum => {
+			const src = pages[pageNum - 1];
+
+			if (!src) {
+				return '';
+			}
+
+			const absoluteSrc = new URL(src, window.location.href).href;
+
+			return `
+				<div class="print-page">
+					<img src="${absoluteSrc}" alt="Page ${pageNum}">
+				</div>
+			`;
+		}).join('');
+
+		printWindow.document.open();
+		printWindow.document.write(`
+			<!DOCTYPE html>
+			<html>
+			<head>
+				<meta charset="UTF-8">
+				<title>${title} - Print</title>
+
+				<style>
+					@page {
+						margin: 0.25in;
+					}
+
+					html,
+					body {
+						margin: 0;
+						padding: 0;
+						background: #fff;
+					}
+
+					.print-page {
+						width: 100%;
+						height: calc(100vh - 0.5in);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						break-after: page;
+						page-break-after: always;
+					}
+
+					.print-page:last-child {
+						break-after: auto;
+						page-break-after: auto;
+					}
+
+					.print-page img {
+						display: block;
+						max-width: 100%;
+						max-height: 100%;
+						width: auto;
+						height: auto;
+						object-fit: contain;
+					}
+				</style>
+			</head>
+
+			<body>
+				${imagesHtml}
+
+				<script>
+					window.addEventListener('load', function () {
+						window.focus();
+
+						setTimeout(function () {
+							window.print();
+						}, 150);
+					});
+				<\/script>
+			</body>
+			</html>
+		`);
+
+		printWindow.document.close();
+	}
+
+	window.printAllPages = function () {
+		const pages = window.FLIPBOOK_PAGES || [];
+		const pageNumbers = pages.map((_, index) => index + 1);
+
+		openPrintWindow(pageNumbers);
+	};
+
+	window.printCurrentPages = function () {
+		const $flipbook = $('#flipbook');
+
+		const currentPage = $flipbook.turn('page');
+		const totalPages = $flipbook.turn('pages');
+
+		let pageNumbers = [];
+
+		if (currentPage === 1 || currentPage === totalPages) {
+			pageNumbers = [currentPage];
+		} else if (currentPage % 2 === 0) {
+			pageNumbers = [currentPage, currentPage + 1];
+		} else {
+			pageNumbers = [currentPage - 1, currentPage];
+		}
+
+		pageNumbers = pageNumbers.filter(p => p >= 1 && p <= totalPages);
+
+		openPrintWindow(pageNumbers);
+	};
+	
 });

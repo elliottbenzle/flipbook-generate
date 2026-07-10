@@ -318,6 +318,33 @@ body {
     cursor: pointer;
 }
 
+.archive-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.archive-content,
+.download-content,
+.top-menu-button {
+    display: block;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 4px 0;
+    text-align: center;
+}
+
+.archive-content:hover,
+.download-content:hover,
+.top-menu-button:hover {
+    text-decoration: underline;
+}
 
 /* TOP TOGGLE BUTTON */
 .archive-toggle {
@@ -337,10 +364,10 @@ body {
 /* DROPDOWN MENU */
 .archive-menu {
     position: fixed;
-    top: -120px;
+    top: -220px;
     left: 0;
     width: 100%;
-    height: 120px;
+    height: 220px;
     background: rgba(0,0,0,0.9);
     transition: top 0.3s ease;
     z-index: 1500;

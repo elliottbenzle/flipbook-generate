@@ -7,16 +7,16 @@ from datetime import datetime
 from pdf2image import convert_from_path
 
 # ===== CONFIG =====
-URL = "https://ohioasphaltmagazine.com/"
-MAGAZINE = "Ohio Asphalt Magazine"
+URL = "https://ohiocontractormagazine.com//"
+MAGAZINE = "Ohio Contractor Magazine"
 GACODE = """<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GGGG4GEPZB"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SCWX9YGD84"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-GGGG4GEPZB');
+  gtag('config', 'G-SCWX9YGD84');
 </script>"""
 
 # ===== INPUTS =====
@@ -24,7 +24,7 @@ PDF_PATH = "input.pdf"  # change this to your PDF
 OUTPUT_DIR = "output"
 IMAGE_FORMAT = "webp"  # png, jpg, or webp
 DPI = 150
-ISSUE_NAME = "Flipbook"
+ISSUE_NAME = "Ohio Contractor Magazine"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 
@@ -134,8 +134,16 @@ def extract_pdf_links():
     doc.close()
     return pages_links
 
+def copy_pdf_to_output():
+    pdf_filename = os.path.basename(PDF_PATH)
+    dst = os.path.join(OUTPUT_DIR, pdf_filename)
 
-def generate_html(image_paths, page_links):
+    shutil.copy(PDF_PATH, dst)
+    print(f"Copied PDF: {pdf_filename}")
+
+    return pdf_filename
+    
+def generate_html(image_paths, page_links, pdf_download_file):
     print("Generating HTML...")
 
     html_path = os.path.join(OUTPUT_DIR, "index.html")
@@ -181,13 +189,14 @@ def generate_html(image_paths, page_links):
     
     """)
 
-        f.write("""
+        f.write(f"""
             <div class="archive-toggle">▼</div>
 
             <div class="archive-menu">
-                <div class="archive-content">
-                    Archive
-                </div>
+                <div class="archive-content">Archive</div>
+                <a class="download-content" href="{pdf_download_file}" download>Download</a>
+                <button class="top-menu-button" onclick="printAllPages()">Print All</button>
+                <button class="top-menu-button" onclick="printCurrentPages()">Print Current Pages</button>
             </div>
             <button class="nav prev" onclick="prevPage()">❮</button>
             <button class="nav next" onclick="nextPage()">❯</button>
@@ -261,8 +270,12 @@ def generate_html(image_paths, page_links):
                 </div>
         """)
         
-        f.write("""
+        f.write(f"""
     </div>
+    <script>
+        window.FLIPBOOK_PAGES = {json.dumps(image_paths)};
+        window.FLIPBOOK_TITLE = {json.dumps(ISSUE_NAME)};
+    </script>
 <script src="script.js"></script>
 </body>
 </html>
@@ -366,7 +379,8 @@ def main():
     copy_assets()
     images = convert_pdf_to_images()
     links = extract_pdf_links()
-    generate_html(images, links)
+    pdf_download_file = copy_pdf_to_output()
+    generate_html(images, links, pdf_download_file)
     update_library_json(images)
     print("Done.")
 
