@@ -225,46 +225,74 @@ $(document).ready(function () {
 			});
 	}
 	
-	function openPrintWindow(pageNumbers) {
+	function printPages(pageNumbers) {
 		const pages = window.FLIPBOOK_PAGES || [];
 		const title = window.FLIPBOOK_TITLE || 'Flipbook';
 
+		console.log('[Print] Requested pages:', pageNumbers);
+		console.log('[Print] Available page images:', pages);
+
 		if (!pages.length) {
-			console.error('No flipbook pages were provided for printing.');
+			console.error('[Print] No page images were provided.');
 			alert('The page images could not be loaded for printing.');
 			return;
 		}
 
-		const printWindow = window.open('', '_blank');
+		const validPages = pageNumbers
+			.map(pageNumber => ({
+				pageNumber,
+				src: pages[pageNumber - 1]
+			}))
+			.filter(page => page.src);
 
-		if (!printWindow) {
-			alert('Popup blocked. Please allow popups to print.');
+		if (!validPages.length) {
+			console.error('[Print] None of the requested pages were valid.');
+			alert('No valid pages were found to print.');
 			return;
 		}
 
-		const imagesHtml = pageNumbers.map(pageNum => {
-			const src = pages[pageNum - 1];
+		// Remove an older print frame if one remains.
+		const oldFrame = document.getElementById('flipbook-print-frame');
 
-			if (!src) {
-				return '';
-			}
+		if (oldFrame) {
+			oldFrame.remove();
+		}
 
-			const absoluteSrc = new URL(src, window.location.href).href;
+		const iframe = document.createElement('iframe');
 
-			return `
-				<div class="print-page">
-					<img src="${absoluteSrc}" alt="Page ${pageNum}">
-				</div>
-			`;
-		}).join('');
+		iframe.id = 'flipbook-print-frame';
+		iframe.setAttribute('title', 'Print preview');
 
-		printWindow.document.open();
-		printWindow.document.write(`
+		Object.assign(iframe.style, {
+			position: 'fixed',
+			right: '0',
+			bottom: '0',
+			width: '1px',
+			height: '1px',
+			border: '0',
+			opacity: '0',
+			pointerEvents: 'none'
+		});
+
+		document.body.appendChild(iframe);
+
+		const printWindow = iframe.contentWindow;
+		const printDocument = iframe.contentDocument || printWindow.document;
+
+		if (!printWindow || !printDocument) {
+			console.error('[Print] Could not access the print iframe.');
+			iframe.remove();
+			alert('The print view could not be created.');
+			return;
+		}
+
+		printDocument.open();
+		printDocument.write(`
 			<!DOCTYPE html>
 			<html>
 			<head>
 				<meta charset="UTF-8">
-				<title>${title} - Print</title>
+				<title></title>
 
 				<style>
 					@page {
@@ -284,50 +312,90 @@ $(document).ready(function () {
 						display: flex;
 						align-items: center;
 						justify-content: center;
-						break-after: page;
 						page-break-after: always;
+						break-after: page;
+						overflow: hidden;
 					}
 
 					.print-page:last-child {
-						break-after: auto;
 						page-break-after: auto;
+						break-after: auto;
 					}
 
 					.print-page img {
 						display: block;
-						max-width: 100%;
-						max-height: 100%;
 						width: auto;
 						height: auto;
+						max-width: 100%;
+						max-height: 100%;
 						object-fit: contain;
 					}
 				</style>
 			</head>
 
-			<body>
-				${imagesHtml}
-
-				<script>
-					window.addEventListener('load', function () {
-						window.focus();
-
-						setTimeout(function () {
-							window.print();
-						}, 150);
-					});
-				<\/script>
-			</body>
+			<body></body>
 			</html>
 		`);
+		printDocument.close();
 
-		printWindow.document.close();
+		printDocument.title = `${title} - Print`;
+
+		const imagePromises = validPages.map(page => {
+			return new Promise(resolve => {
+				const pageContainer = printDocument.createElement('div');
+				const image = printDocument.createElement('img');
+
+				pageContainer.className = 'print-page';
+
+				image.alt = `Page ${page.pageNumber}`;
+				image.src = new URL(page.src, window.location.href).href;
+
+				image.addEventListener('load', function () {
+					console.log(
+						`[Print] Loaded page ${page.pageNumber}:`,
+						image.src
+					);
+					resolve();
+				});
+
+				image.addEventListener('error', function () {
+					console.error(
+						`[Print] Failed to load page ${page.pageNumber}:`,
+						image.src
+					);
+					resolve();
+				});
+
+				pageContainer.appendChild(image);
+				printDocument.body.appendChild(pageContainer);
+			});
+		});
+
+		Promise.all(imagePromises).then(function () {
+			console.log('[Print] Images finished loading. Opening print dialog.');
+
+			printWindow.focus();
+			printWindow.print();
+
+			const cleanup = function () {
+				window.setTimeout(function () {
+					iframe.remove();
+				}, 500);
+			};
+
+			if ('onafterprint' in printWindow) {
+				printWindow.onafterprint = cleanup;
+			} else {
+				window.setTimeout(cleanup, 3000);
+			}
+		});
 	}
 
 	window.printAllPages = function () {
 		const pages = window.FLIPBOOK_PAGES || [];
 		const pageNumbers = pages.map((_, index) => index + 1);
 
-		openPrintWindow(pageNumbers);
+		printPages(pageNumbers);
 	};
 
 	window.printCurrentPages = function () {
@@ -348,7 +416,7 @@ $(document).ready(function () {
 
 		pageNumbers = pageNumbers.filter(p => p >= 1 && p <= totalPages);
 
-		openPrintWindow(pageNumbers);
+		printPages(pageNumbers);
 	};
 	
 });
