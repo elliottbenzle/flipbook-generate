@@ -7,7 +7,7 @@ from datetime import datetime
 from pdf2image import convert_from_path
 
 # ===== CONFIG =====
-URL = "https://ohiocontractormagazine.com//"
+URL = "https://ohiocontractormagazine.com/"
 MAGAZINE = "Ohio Contractor Magazine"
 GACODE = """<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-SCWX9YGD84"></script>
@@ -134,6 +134,101 @@ def extract_pdf_links():
     doc.close()
     return pages_links
 
+def _join_pdf_lines(lines):
+    """Join wrapped PDF lines into readable text while preserving real breaks."""
+    cleaned = []
+    for line in lines:
+        line = " ".join(line.split()).strip()
+        if line:
+            cleaned.append(line)
+
+    if not cleaned:
+        return ""
+
+    result = cleaned[0]
+    for line in cleaned[1:]:
+        if result.endswith("-") and line and line[0].islower():
+            result = result[:-1] + line
+        else:
+            result += " " + line
+
+    return result.strip()
+
+
+def extract_pdf_text():
+    """Extract cleaned, ordered text blocks from each PDF page."""
+    print("Extracting text from PDF...")
+
+    doc = fitz.open(PDF_PATH)
+    pages_text = []
+
+    for page_index in range(len(doc)):
+        page = doc.load_page(page_index)
+        page_dict = page.get_text("dict", sort=True)
+        raw_blocks = []
+        all_font_sizes = []
+
+        for block in page_dict.get("blocks", []):
+            if block.get("type") != 0:
+                continue
+
+            lines = []
+            block_font_sizes = []
+
+            for line in block.get("lines", []):
+                line_parts = []
+                for span in line.get("spans", []):
+                    span_text = span.get("text", "")
+                    if span_text.strip():
+                        line_parts.append(span_text)
+                        size = float(span.get("size", 0) or 0)
+                        if size > 0:
+                            block_font_sizes.append(size)
+                            all_font_sizes.append(size)
+
+                if line_parts:
+                    lines.append("".join(line_parts))
+
+            text = _join_pdf_lines(lines)
+            if text:
+                raw_blocks.append({
+                    "text": text,
+                    "max_font_size": max(block_font_sizes) if block_font_sizes else 0,
+                    "line_count": len(lines),
+                })
+
+        if all_font_sizes:
+            sorted_sizes = sorted(all_font_sizes)
+            body_size = sorted_sizes[len(sorted_sizes) // 2]
+        else:
+            body_size = 0
+
+        blocks = []
+        for block in raw_blocks:
+            text = block["text"]
+            word_count = len(text.split())
+            max_size = block["max_font_size"]
+            is_heading = False
+
+            if word_count <= 18 and len(text) <= 180:
+                if body_size and max_size >= body_size * 1.22:
+                    is_heading = True
+                elif block["line_count"] <= 2 and text.isupper() and word_count <= 12:
+                    is_heading = True
+
+            blocks.append({
+                "type": "heading" if is_heading else "paragraph",
+                "text": text,
+            })
+
+        pages_text.append(blocks)
+        char_count = sum(len(block["text"]) for block in blocks)
+        print(f"Page {page_index + 1}: extracted {char_count} character(s) in {len(blocks)} block(s)")
+
+    doc.close()
+    return pages_text
+
+
 def copy_pdf_to_output():
     pdf_filename = os.path.basename(PDF_PATH)
     dst = os.path.join(OUTPUT_DIR, pdf_filename)
@@ -143,7 +238,7 @@ def copy_pdf_to_output():
 
     return pdf_filename
     
-def generate_html(image_paths, page_links, pdf_download_file):
+def generate_html(image_paths, page_links, page_text, pdf_download_file):
     print("Generating HTML...")
 
     html_path = os.path.join(OUTPUT_DIR, "index.html")
@@ -197,6 +292,7 @@ def generate_html(image_paths, page_links, pdf_download_file):
                 <a class="download-content" href="{pdf_download_file}" download>Download</a>
                 <button class="top-menu-button" onclick="printAllPages()">Print All</button>
                 <button class="top-menu-button" onclick="printCurrentPages()">Print Current Pages</button>
+                <button class="top-menu-button text-view-menu-button" onclick="openTextView()">Text View</button>
             </div>
             <button class="nav prev" onclick="prevPage()">❮</button>
             <button class="nav next" onclick="nextPage()">❯</button>
@@ -212,7 +308,7 @@ def generate_html(image_paths, page_links, pdf_download_file):
                 <div class="page-inner">
                     <div class="inner-shadow left"></div>
                     <div class="inner-shadow right"></div>
-                    <img src="{img}">
+                    <img src="{img}" alt="Page {page_index + 1} of {html.escape(ISSUE_NAME, quote=True)}">
             ''')
             
             # Add overlays for this page
@@ -243,8 +339,61 @@ def generate_html(image_paths, page_links, pdf_download_file):
             </div>
         </div>
         """)
-        
+
+        # Text View: all extracted text remains in semantic HTML. CSS/JS displays
+        # one page at a time when the reader opens the alternate reading view.
         f.write("""
+        <div class="text-view-overlay" id="text-view-overlay" aria-hidden="true">
+            <div class="text-view-shell" role="dialog" aria-modal="true" aria-labelledby="text-view-title">
+                <div class="text-view-header">
+                    <div>
+                        <div class="text-view-kicker">Text View</div>
+                        <h1 id="text-view-title">""" + html.escape(ISSUE_NAME) + """</h1>
+                    </div>
+                    <button class="text-view-close" type="button" onclick="closeTextView()" aria-label="Close Text View">&times;</button>
+                </div>
+                <div class="text-view-content">
+        """)
+
+        for page_index, blocks in enumerate(page_text):
+            page_number = page_index + 1
+            f.write(f"""
+                    <article class="text-page" data-text-page="{page_number}" aria-label="Page {page_number}">
+                        <div class="text-page-number">Page {page_number}</div>
+            """)
+
+            if blocks:
+                for block in blocks:
+                    safe_text = html.escape(block["text"])
+                    if block["type"] == "heading":
+                        f.write(f'<h2 class="text-block-heading">{safe_text}</h2>\n')
+                    else:
+                        f.write(f'<p>{safe_text}</p>\n')
+            else:
+                f.write('<p class="text-empty-page">No extractable text was found on this page.</p>\n')
+
+            f.write('                    </article>\n')
+
+        page_options = "".join(
+            f'<option value="{i}">{i}</option>'
+            for i in range(1, len(page_text) + 1)
+        )
+
+        f.write(f"""
+                </div>
+                <nav class="text-view-pagination" aria-label="Text page navigation">
+                    <button type="button" class="text-page-nav" id="text-prev-page" onclick="changeTextPage(-1)">Previous</button>
+                    <label class="text-page-select-label" for="text-page-select">
+                        <span>Page</span>
+                        <select id="text-page-select" onchange="showTextPage(parseInt(this.value, 10))">
+                            {page_options}
+                        </select>
+                        <span>of {len(page_text)}</span>
+                    </label>
+                    <button type="button" class="text-page-nav" id="text-next-page" onclick="changeTextPage(1)">Next</button>
+                </nav>
+            </div>
+        </div>
 
             <div class="thumb-toggle">⌃</div>
 
@@ -379,8 +528,9 @@ def main():
     copy_assets()
     images = convert_pdf_to_images()
     links = extract_pdf_links()
+    page_text = extract_pdf_text()
     pdf_download_file = copy_pdf_to_output()
-    generate_html(images, links, pdf_download_file)
+    generate_html(images, links, page_text, pdf_download_file)
     update_library_json(images)
     print("Done.")
 

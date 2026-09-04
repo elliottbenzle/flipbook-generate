@@ -1,0 +1,16 @@
+TEXT VIEW UPDATE
+================
+
+This version adds a searchable/readable text layer to the generated flipbook while leaving the page-image presentation intact.
+
+Changes:
+- Extracts text from each PDF page with PyMuPDF (fitz).
+- Uses structured PDF text blocks and repairs ordinary wrapped line breaks.
+- Makes a conservative attempt to identify short headings from font size / all-caps text.
+- Writes extracted text directly into index.html as semantic HTML.
+- Adds a Text View item to the top menu.
+- Text View opens on the first page of the currently displayed spread.
+- Text View includes Previous, Next, direct page selection, scrolling, and a close button.
+- Adds descriptive alt text to generated page images.
+
+No additional Python dependency is required beyond PyMuPDF, which the generator already uses for PDF link extraction.

@@ -419,4 +419,72 @@ $(document).ready(function () {
 		printPages(pageNumbers);
 	};
 	
+
+
+	// Text View
+	let currentTextPage = 1;
+	const textOverlay = document.getElementById('text-view-overlay');
+	const textPages = Array.from(document.querySelectorAll('.text-page'));
+	const textPageSelect = document.getElementById('text-page-select');
+	const textPrevButton = document.getElementById('text-prev-page');
+	const textNextButton = document.getElementById('text-next-page');
+	const textContent = document.querySelector('.text-view-content');
+
+	function getFirstVisibleSpreadPage() {
+		const currentPage = $flipbook.turn('page');
+		const totalPages = $flipbook.turn('pages');
+
+		if (currentPage <= 1) return 1;
+		if (currentPage >= totalPages) return totalPages;
+		return currentPage % 2 === 0 ? currentPage : currentPage - 1;
+	}
+
+	window.showTextPage = function (pageNumber) {
+		if (!textPages.length) return;
+		const totalPages = textPages.length;
+		const safePage = Math.max(1, Math.min(totalPages, Number(pageNumber) || 1));
+		currentTextPage = safePage;
+
+		textPages.forEach(page => {
+			const isActive = Number(page.dataset.textPage) === safePage;
+			page.classList.toggle('active', isActive);
+			page.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+		});
+
+		if (textPageSelect) textPageSelect.value = String(safePage);
+		if (textPrevButton) textPrevButton.disabled = safePage <= 1;
+		if (textNextButton) textNextButton.disabled = safePage >= totalPages;
+		if (textContent) textContent.scrollTop = 0;
+	};
+
+	window.changeTextPage = function (direction) {
+		window.showTextPage(currentTextPage + direction);
+	};
+
+	window.openTextView = function () {
+		if (!textOverlay) return;
+		window.showTextPage(getFirstVisibleSpreadPage());
+		textOverlay.classList.add('active');
+		textOverlay.setAttribute('aria-hidden', 'false');
+		document.body.classList.add('text-view-open');
+		const closeButton = textOverlay.querySelector('.text-view-close');
+		if (closeButton) closeButton.focus();
+	};
+
+	window.closeTextView = function () {
+		if (!textOverlay) return;
+		textOverlay.classList.remove('active');
+		textOverlay.setAttribute('aria-hidden', 'true');
+		document.body.classList.remove('text-view-open');
+	};
+
+	if (textOverlay) {
+		window.showTextPage(1);
+	}
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape' && textOverlay && textOverlay.classList.contains('active')) {
+			window.closeTextView();
+		}
+	});
 });
