@@ -1,0 +1,21 @@
+Flipbook Generator - Automatic Link Detection
+
+Added automatic clickable overlays for printed contact information that is not
+already linked in the source PDF.
+
+Detected patterns:
+- Websites using these configured TLDs: .com, .org, .net, .edu, .gov, .io,
+  .co, .us, .info, .biz
+- Email addresses
+- Common U.S. phone formats such as 614-555-1212 and (740) 380-7777
+
+Behavior:
+- Website targets are normalized to https://
+- Email targets use mailto:
+- Phone targets use tel:
+- Existing URI annotations from the PDF are preserved.
+- Automatic matches that overlap an existing PDF link are skipped to avoid
+  creating duplicate clickable regions.
+
+To change the recognized TLD list, edit AUTO_LINK_TLDS near the top of
+flipbook-generate.py.

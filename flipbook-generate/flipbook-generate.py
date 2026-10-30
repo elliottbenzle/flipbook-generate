@@ -3,6 +3,7 @@ import shutil
 import html
 import fitz
 import json
+import re
 from datetime import datetime
 from pdf2image import convert_from_path
 
@@ -77,21 +78,183 @@ def convert_pdf_to_images():
     return image_paths
 
 
+# Common TLDs used when recognizing printed web addresses that are not
+# already linked in the source PDF. Add/remove values here as needed.
+AUTO_LINK_TLDS = ("com", "org", "net", "edu", "gov", "io", "co", "us", "info", "biz")
+
+# URL detection intentionally requires one of the configured TLDs so ordinary
+# punctuation and decimal values are not mistaken for web addresses.
+_TLD_PATTERN = "|".join(re.escape(tld) for tld in AUTO_LINK_TLDS)
+URL_PATTERN = re.compile(
+    rf"(?i)(?<![@\w])(?:https?://)?(?:www\.)?[a-z0-9](?:[a-z0-9-]{{0,61}}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{{0,61}}[a-z0-9])?)*\.(?:{_TLD_PATTERN})(?::\d{{2,5}})?(?:/[^\s<>()\[\]{{}}]*|\?[^\s<>()\[\]{{}}]*)?"
+)
+EMAIL_PATTERN = re.compile(
+    r"(?i)(?<![A-Z0-9._%+-])[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,24}(?![A-Z0-9._%+-])"
+)
+PHONE_PATTERN = re.compile(
+    r"(?<!\d)(?:\+?1[ .-]?)?(?:\(\d{3}\)|\d{3})[ .-]\d{3}[ .-]\d{4}(?!\d)"
+)
+
+
+def _clean_url_match(value):
+    """Trim punctuation commonly printed immediately after a web address."""
+    return value.rstrip(".,;:!?)]}'\"")
+
+
+def _normalize_web_url(value):
+    value = _clean_url_match(value.strip())
+    value = re.sub(r"(?i)^https?://", "", value)
+    return "https://" + value
+
+
+def _normalize_email(value):
+    return "mailto:" + value.strip().rstrip(".,;:!?)]}'\"")
+
+
+def _normalize_phone(value):
+    # tel: links are most reliable when formatting punctuation is removed.
+    digits = re.sub(r"\D", "", value)
+    if len(digits) == 11 and digits.startswith("1"):
+        return "tel:+" + digits
+    return "tel:" + digits
+
+
+def _rect_overlap_ratio(rect_a, rect_b):
+    """Return overlap area divided by the smaller rectangle's area."""
+    intersection = rect_a & rect_b
+    if intersection.is_empty or intersection.width <= 0 or intersection.height <= 0:
+        return 0.0
+
+    area_a = max(rect_a.width * rect_a.height, 0.0001)
+    area_b = max(rect_b.width * rect_b.height, 0.0001)
+    intersection_area = intersection.width * intersection.height
+    return intersection_area / min(area_a, area_b)
+
+
+def _line_text_and_word_ranges(words):
+    """
+    Rebuild one PDF text line and retain character ranges for each word.
+    This allows a regex match that spans multiple words (notably phone numbers)
+    to be mapped back to a clickable rectangle on the page.
+    """
+    parts = []
+    ranges = []
+    position = 0
+
+    for index, word in enumerate(words):
+        text = word[4]
+        if index:
+            parts.append(" ")
+            position += 1
+
+        start = position
+        parts.append(text)
+        position += len(text)
+        ranges.append((start, position, word))
+
+    return "".join(parts), ranges
+
+
+def _match_rect(match_start, match_end, ranges):
+    matched_words = []
+    for word_start, word_end, word in ranges:
+        if word_end <= match_start or word_start >= match_end:
+            continue
+        matched_words.append(word)
+
+    if not matched_words:
+        return None
+
+    rect = fitz.Rect(
+        matched_words[0][0], matched_words[0][1],
+        matched_words[0][2], matched_words[0][3]
+    )
+
+    for word in matched_words[1:]:
+        rect |= fitz.Rect(word[0], word[1], word[2], word[3])
+
+    # A tiny pad makes the link easier to click without materially covering
+    # surrounding content.
+    rect.x0 -= 0.75
+    rect.y0 -= 0.75
+    rect.x1 += 0.75
+    rect.y1 += 0.75
+    return rect
+
+
+def _find_automatic_links(page, existing_rects):
+    """Find URL/email/phone text and return link targets plus PDF rectangles."""
+    words = page.get_text("words", sort=True)
+    if not words:
+        return []
+
+    # PyMuPDF word tuple: x0, y0, x1, y1, text, block_no, line_no, word_no
+    lines = {}
+    for word in words:
+        key = (word[5], word[6])
+        lines.setdefault(key, []).append(word)
+
+    automatic = []
+    auto_rects = []
+
+    matchers = (
+        ("email", EMAIL_PATTERN, _normalize_email),
+        ("url", URL_PATTERN, _normalize_web_url),
+        ("phone", PHONE_PATTERN, _normalize_phone),
+    )
+
+    for line_words in lines.values():
+        line_words.sort(key=lambda item: item[7])
+        line_text, ranges = _line_text_and_word_ranges(line_words)
+
+        for link_type, pattern, target_builder in matchers:
+            for match in pattern.finditer(line_text):
+                matched_text = match.group(0)
+
+                # Avoid treating the domain portion of an email as a URL.
+                if link_type == "url" and match.start() > 0 and line_text[match.start() - 1] == "@":
+                    continue
+
+                cleaned_text = matched_text
+                match_end = match.end()
+                if link_type == "url":
+                    cleaned_text = _clean_url_match(matched_text)
+                    match_end -= len(matched_text) - len(cleaned_text)
+                    if not cleaned_text:
+                        continue
+
+                rect = _match_rect(match.start(), match_end, ranges)
+                if rect is None:
+                    continue
+
+                # If the source PDF already supplied a clickable annotation over
+                # this text, preserve that annotation and do not add a duplicate.
+                if any(_rect_overlap_ratio(rect, existing) >= 0.25 for existing in existing_rects):
+                    continue
+
+                # Prevent duplicate auto-links when regex patterns overlap.
+                if any(_rect_overlap_ratio(rect, existing) >= 0.65 for existing in auto_rects):
+                    continue
+
+                automatic.append({
+                    "url": target_builder(cleaned_text),
+                    "rect": rect,
+                    "source": "auto-" + link_type,
+                })
+                auto_rects.append(rect)
+
+    return automatic
+
+
 def extract_pdf_links():
     """
-    Returns a list where each item corresponds to a PDF page and contains
-    overlay data for that page.
+    Extract existing URI annotations and automatically detect printed URLs,
+    email addresses, and U.S. phone numbers that do not already have links.
 
-    Each overlay is stored as percentage values relative to the page size:
-    {
-        "url": "https://example.com",
-        "left_pct": 12.34,
-        "top_pct": 45.67,
-        "width_pct": 20.12,
-        "height_pct": 3.45
-    }
+    Returns one list per PDF page. Overlay coordinates are stored as percentages
+    so they remain aligned as the flipbook scales responsively.
     """
-    print("Extracting links from PDF...")
+    print("Extracting and detecting links from PDF...")
 
     doc = fitz.open(PDF_PATH)
     pages_links = []
@@ -102,34 +265,47 @@ def extract_pdf_links():
         page_width = page_rect.width
         page_height = page_rect.height
 
-        page_links = []
+        page_link_data = []
+        existing_rects = []
+        existing_count = 0
 
+        # Preserve native PDF URI links first.
         for link in page.get_links():
             url = link.get("uri")
             rect = link.get("from")
 
-            # Only handle external URI links for now
             if not url or not rect:
                 continue
 
-            # rect is in PDF coordinates (origin at top-left in PyMuPDF page space)
-            left = rect.x0
-            top = rect.y0
-            width = rect.width
-            height = rect.height
-
-            overlay = {
+            existing_rects.append(fitz.Rect(rect))
+            page_link_data.append({
                 "url": url,
-                "left_pct": (left / page_width) * 100,
-                "top_pct": (top / page_height) * 100,
-                "width_pct": (width / page_width) * 100,
-                "height_pct": (height / page_height) * 100
-            }
+                "rect": fitz.Rect(rect),
+                "source": "pdf",
+            })
+            existing_count += 1
 
-            page_links.append(overlay)
+        # Add links inferred from visible text only where no native PDF link exists.
+        automatic_links = _find_automatic_links(page, existing_rects)
+        page_link_data.extend(automatic_links)
 
-        pages_links.append(page_links)
-        print(f"Page {page_index + 1}: found {len(page_links)} link(s)")
+        page_overlays = []
+        for link in page_link_data:
+            rect = link["rect"]
+            page_overlays.append({
+                "url": link["url"],
+                "left_pct": (rect.x0 / page_width) * 100,
+                "top_pct": (rect.y0 / page_height) * 100,
+                "width_pct": (rect.width / page_width) * 100,
+                "height_pct": (rect.height / page_height) * 100,
+                "source": link["source"],
+            })
+
+        pages_links.append(page_overlays)
+        print(
+            f"Page {page_index + 1}: {existing_count} PDF link(s), "
+            f"{len(automatic_links)} automatic link(s)"
+        )
 
     doc.close()
     return pages_links
@@ -320,13 +496,15 @@ def generate_html(image_paths, page_links, page_text, pdf_download_file):
                     width_pct = f'{link["width_pct"]:.4f}'
                     height_pct = f'{link["height_pct"]:.4f}'
 
+                    link_source = link.get("source", "pdf")
+                    aria_label = "Detected contact link" if link_source.startswith("auto-") else "PDF link"
+                    target_attr = '' if safe_url.startswith(('mailto:', 'tel:')) else ' target="_blank" rel="noopener noreferrer"'
+
                     f.write(f"""
                     <a class="link-overlay"
-                       href="{safe_url}"
-                       target="_blank"
-                       rel="noopener noreferrer"
+                       href="{safe_url}"{target_attr}
                        style="left:{left_pct}%; top:{top_pct}%; width:{width_pct}%; height:{height_pct}%;"
-                       aria-label="PDF link"></a>
+                       aria-label="{aria_label}"></a>
             """)
             
             
