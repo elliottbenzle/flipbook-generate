@@ -1,0 +1,15 @@
+Flipbook Generator v1.4 - Search
+================================
+
+Added magazine text search using the semantic Text View content already embedded
+in each generated index.html. No separate search index/data file is required.
+
+Behavior:
+- Adds Search above Archive in the top dropdown menu.
+- Opens a centered floating search panel.
+- Closes with the X button, Escape key, or a click outside the panel.
+- Begins searching automatically after 4 characters have been entered.
+- Searches case-insensitively across each page's extracted text.
+- Returns one result per matching page with a contextual snippet.
+- Highlights the matched term in result snippets.
+- Clicking a result closes Search and turns the flipbook directly to that page.

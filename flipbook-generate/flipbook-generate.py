@@ -8,16 +8,16 @@ from datetime import datetime
 from pdf2image import convert_from_path
 
 # ===== CONFIG =====
-URL = "https://ohiocontractormagazine.com/"
-MAGAZINE = "Ohio Contractor Magazine"
+URL = "https://trbadirectory.org/"
+MAGAZINE = "TRBA Directory - Tennessee Road Builders Association"
 GACODE = """<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SCWX9YGD84"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L6D6KL5J31"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-SCWX9YGD84');
+  gtag('config', 'G-L6D6KL5J31');
 </script>"""
 
 # ===== INPUTS =====
@@ -25,7 +25,7 @@ PDF_PATH = "input.pdf"  # change this to your PDF
 OUTPUT_DIR = "output"
 IMAGE_FORMAT = "webp"  # png, jpg, or webp
 DPI = 150
-ISSUE_NAME = "Ohio Contractor Magazine"
+ISSUE_NAME = "Tennessee Road Builders Association"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 
@@ -88,8 +88,12 @@ _TLD_PATTERN = "|".join(re.escape(tld) for tld in AUTO_LINK_TLDS)
 URL_PATTERN = re.compile(
     rf"(?i)(?<![@\w])(?:https?://)?(?:www\.)?[a-z0-9](?:[a-z0-9-]{{0,61}}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{{0,61}}[a-z0-9])?)*\.(?:{_TLD_PATTERN})(?::\d{{2,5}})?(?:/[^\s<>()\[\]{{}}]*|\?[^\s<>()\[\]{{}}]*)?"
 )
+# Email local-parts allow single periods between segments (for example,
+# first.last@example.com), but not runs of periods. This prevents dotted
+# directory leaders such as "Name........email@example.com" from being
+# swallowed into the generated mailto link.
 EMAIL_PATTERN = re.compile(
-    r"(?i)(?<![A-Z0-9._%+-])[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,24}(?![A-Z0-9._%+-])"
+    r"(?i)(?<![A-Z0-9_%+-])[A-Z0-9_%+-]+(?:\.[A-Z0-9_%+-]+)*@[A-Z0-9-]+(?:\.[A-Z0-9-]+)+(?<!\.)(?![A-Z0-9_%+-])"
 )
 PHONE_PATTERN = re.compile(
     r"(?<!\d)(?:\+?1[ .-]?)?(?:\(\d{3}\)|\d{3})[ .-]\d{3}[ .-]\d{4}(?!\d)"
@@ -108,7 +112,7 @@ def _normalize_web_url(value):
 
 
 def _normalize_email(value):
-    return "mailto:" + value.strip().rstrip(".,;:!?)]}'\"")
+    return "mailto:" + value.strip().lstrip(".").rstrip(".,;:!?)]}'\"")
 
 
 def _normalize_phone(value):
@@ -464,6 +468,7 @@ def generate_html(image_paths, page_links, page_text, pdf_download_file):
             <div class="archive-toggle">▼</div>
 
             <div class="archive-menu">
+                <button class="top-menu-button search-menu-button" type="button" onclick="openSearch(event)">Search</button>
                 <div class="archive-content">Archive</div>
                 <a class="download-content" href="{pdf_download_file}" download>Download</a>
                 <button class="top-menu-button" onclick="printAllPages()">Print All</button>
@@ -516,6 +521,22 @@ def generate_html(image_paths, page_links, page_text, pdf_download_file):
         f.write("""
             </div>
         </div>
+        """)
+
+        # Search UI. The search index is the semantic Text View content below,
+        # so there is no separate generated search-data file to maintain.
+        f.write("""
+        <div class="flipbook-search" id="flipbook-search" aria-hidden="true">
+            <div class="flipbook-search-bar">
+                <label for="flipbook-search-input">Search</label>
+                <input id="flipbook-search-input" type="search" autocomplete="off" placeholder="Enter text here..." aria-label="Search magazine text">
+                <span class="flipbook-search-icon" aria-hidden="true">&#128269;</span>
+                <button class="flipbook-search-close" type="button" onclick="closeSearch()" aria-label="Close search">&times;</button>
+            </div>
+            <div class="flipbook-search-status" id="flipbook-search-status" aria-live="polite"></div>
+            <div class="flipbook-search-results" id="flipbook-search-results"></div>
+        </div>
+
         """)
 
         # Text View: all extracted text remains in semantic HTML. CSS/JS displays

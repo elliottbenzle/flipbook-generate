@@ -421,6 +421,141 @@ $(document).ready(function () {
 	
 
 
+
+	// Search
+	const searchBox = document.getElementById('flipbook-search');
+	const searchInput = document.getElementById('flipbook-search-input');
+	const searchStatus = document.getElementById('flipbook-search-status');
+	const searchResults = document.getElementById('flipbook-search-results');
+	let searchTimer = null;
+
+	function closeTopMenu() {
+		if (archiveMenu) archiveMenu.classList.remove('active');
+	}
+
+	function normalizeSearchText(value) {
+		return (value || '').replace(/\s+/g, ' ').trim();
+	}
+
+	function escapeSearchHtml(value) {
+		return value.replace(/[&<>"']/g, char => ({
+			'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+		})[char]);
+	}
+
+	function makeSearchSnippet(text, query) {
+		const compact = normalizeSearchText(text);
+		const lower = compact.toLowerCase();
+		const index = lower.indexOf(query.toLowerCase());
+		if (index < 0) return compact.slice(0, 220);
+
+		const radius = 100;
+		let start = Math.max(0, index - radius);
+		let end = Math.min(compact.length, index + query.length + radius);
+
+		// Prefer to start/end on a word boundary when possible.
+		if (start > 0) {
+			const nextSpace = compact.indexOf(' ', start);
+			if (nextSpace !== -1 && nextSpace < index) start = nextSpace + 1;
+		}
+		if (end < compact.length) {
+			const prevSpace = compact.lastIndexOf(' ', end);
+			if (prevSpace > index + query.length) end = prevSpace;
+		}
+
+		const prefix = start > 0 ? '…' : '';
+		const suffix = end < compact.length ? '…' : '';
+		return prefix + compact.slice(start, end) + suffix;
+	}
+
+	function highlightSearchSnippet(snippet, query) {
+		const safeSnippet = escapeSearchHtml(snippet);
+		const safeQuery = escapeSearchHtml(query);
+		const escapedRegex = safeQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		return safeSnippet.replace(new RegExp(`(${escapedRegex})`, 'ig'), '<mark>$1</mark>');
+	}
+
+	function performMagazineSearch() {
+		if (!searchInput || !searchResults || !searchStatus) return;
+		const query = normalizeSearchText(searchInput.value);
+		searchResults.innerHTML = '';
+
+		if (query.length <= 3) {
+			searchStatus.textContent = query.length ? 'Enter at least 4 characters to search.' : '';
+			return;
+		}
+
+		const queryLower = query.toLowerCase();
+		const matches = [];
+		document.querySelectorAll('.text-page').forEach(page => {
+			const pageNumber = Number(page.dataset.textPage);
+			const searchableBlocks = Array.from(page.querySelectorAll('.text-block-heading, p'));
+			const text = normalizeSearchText(searchableBlocks.map(block => block.textContent || '').join(' '));
+			if (text.toLowerCase().includes(queryLower)) {
+				matches.push({
+					page: pageNumber,
+					snippet: makeSearchSnippet(text, query)
+				});
+			}
+		});
+
+		searchStatus.textContent = `${matches.length} ${matches.length === 1 ? 'page' : 'pages'} found for “${query}”`;
+
+		if (!matches.length) {
+			searchResults.innerHTML = '<div class="flipbook-search-empty">No matching pages found.</div>';
+			return;
+		}
+
+		const fragment = document.createDocumentFragment();
+		matches.forEach(match => {
+			const button = document.createElement('button');
+			button.type = 'button';
+			button.className = 'flipbook-search-result';
+			button.innerHTML = `<span class="flipbook-search-result-page">Page ${match.page}</span><span class="flipbook-search-result-snippet">${highlightSearchSnippet(match.snippet, query)}</span>`;
+			button.addEventListener('click', () => {
+				window.closeSearch();
+				window.goToPage(match.page);
+			});
+			fragment.appendChild(button);
+		});
+		searchResults.appendChild(fragment);
+	}
+
+	window.openSearch = function (event) {
+		if (event) event.stopPropagation();
+		if (!searchBox) return;
+		closeTopMenu();
+		searchBox.classList.add('active');
+		searchBox.setAttribute('aria-hidden', 'false');
+		if (searchInput) {
+			setTimeout(() => {
+				searchInput.focus();
+				searchInput.select();
+			}, 0);
+		}
+	};
+
+	window.closeSearch = function () {
+		if (!searchBox) return;
+		searchBox.classList.remove('active');
+		searchBox.setAttribute('aria-hidden', 'true');
+	};
+
+	if (searchInput) {
+		searchInput.addEventListener('input', () => {
+			clearTimeout(searchTimer);
+			searchTimer = setTimeout(performMagazineSearch, 120);
+		});
+	}
+
+	if (searchBox) {
+		searchBox.addEventListener('click', e => e.stopPropagation());
+	}
+
+	document.addEventListener('click', () => {
+		if (searchBox && searchBox.classList.contains('active')) window.closeSearch();
+	});
+
 	// Text View
 	let currentTextPage = 1;
 	const textOverlay = document.getElementById('text-view-overlay');
@@ -483,8 +618,9 @@ $(document).ready(function () {
 	}
 
 	document.addEventListener('keydown', (e) => {
-		if (e.key === 'Escape' && textOverlay && textOverlay.classList.contains('active')) {
-			window.closeTextView();
+		if (e.key === 'Escape') {
+			if (searchBox && searchBox.classList.contains('active')) window.closeSearch();
+			if (textOverlay && textOverlay.classList.contains('active')) window.closeTextView();
 		}
 	});
 });

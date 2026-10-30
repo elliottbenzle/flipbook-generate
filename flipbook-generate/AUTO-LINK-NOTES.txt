@@ -19,3 +19,8 @@ Behavior:
 
 To change the recognized TLD list, edit AUTO_LINK_TLDS near the top of
 flipbook-generate.py.
+
+v1.3.1 email matching adjustment
+- Dotted directory leaders before an email are no longer included in mailto links.
+- Example: Name........kwhite@tnconcrete.org now links only kwhite@tnconcrete.org.
+- Legitimate dotted addresses such as first.last@example.com are still supported.
